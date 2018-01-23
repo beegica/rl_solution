@@ -7,6 +7,7 @@ import numpy as np
 from sith import SITH
 from memory_hash import HashedMemory
 # if gpu is to be used
+
 use_cuda = torch.cuda.is_available()
 FloatTensor = torch.cuda.FloatTensor if use_cuda else torch.FloatTensor
 IntTensor = torch.cuda.IntTensor if use_cuda else torch.IntTensor
@@ -44,7 +45,8 @@ class SithSR(object):
 
         # init sith
         self._in_sith = state_len + action_len
-        self._sith = SITH(self._in_sith, dt=self._dt, ntau=25, dtype=self._dtype)
+        print(use_cuda)
+        self._sith = SITH(self._in_sith, dt=self._dt, ntau=25, dtype=self._dtype, use_cuda=use_cuda)
         self._p0 = torch.zeros((self._in_sith, 1))
 
         # allocate for M
@@ -103,7 +105,7 @@ class SithSR(object):
 
         # we need to reset t to the old t every loop. &
         for a in self._actions:
-            
+
             # update sith
             sa = torch.cat((state, a), 0)
             self._sith.update_t(sa, dur=self._dur)

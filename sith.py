@@ -46,10 +46,10 @@ def _calc_invL(s, k):
 
 class SITH():
     """SITH implementation."""
-    def __init__(self, in_features, tau_0=.1, k=4, c=.1,
+    def __init__(self, in_features, tau_0=1/30., k=4, c=.1,
                  ntau=100, s_toskip=0, T_every=8, alpha=1.0,
                  dt=1/30./10., dtype=np.float32, use_cuda=False):
-                 
+
         self._in_features = in_features
         self._tau_0 = tau_0
         self._k = k
